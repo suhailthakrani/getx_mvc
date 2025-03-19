@@ -1,0 +1,77 @@
+class AppException implements Exception {
+  final String message;
+  final String? prefix;
+  final String? url;
+
+  AppException([this.message = 'An unknown error occurred', this.prefix, this.url]);
+
+  @override
+  String toString() {
+    return '$prefix: $message${url != null ? ' (URL: $url)' : ''}';
+  }
+}
+
+class BadRequestException extends AppException {
+  BadRequestException([String message = 'Invalid request', String? url]) 
+      : super(message, 'Bad Request', url);
+}
+
+class UnauthorizedException extends AppException {
+  UnauthorizedException([String message = 'Unauthorized', String? url]) 
+      : super(message, 'Unauthorized', url);
+}
+
+class ForbiddenException extends AppException {
+  ForbiddenException([String message = 'Access denied', String? url]) 
+      : super(message, 'Forbidden', url);
+}
+
+class NotFoundException extends AppException {
+  NotFoundException([String message = 'Resource not found', String? url]) 
+      : super(message, 'Not Found', url);
+}
+
+class ServerException extends AppException {
+  ServerException([String message = 'Server error', String? url]) 
+      : super(message, 'Server Error', url);
+}
+
+class ConnectionException extends AppException {
+  ConnectionException([String message = 'Connection failed', String? url]) 
+      : super(message, 'Connection Error', url);
+}
+
+class TimeoutException extends AppException {
+  TimeoutException([String message = 'Connection timeout', String? url]) 
+      : super(message, 'Timeout', url);
+}
+
+class ConflictException extends AppException {
+  ConflictException([String message = 'Conflict occurred', String? url]) 
+      : super(message, 'Conflict', url);
+}
+
+class AuthenticationException extends AppException {
+  AuthenticationException([String message = 'Authentication failed', String? url]) 
+      : super(message, 'Authentication Error', url);
+}
+
+class CacheException extends AppException {
+  CacheException([String message = 'Cache error']) 
+      : super(message, 'Cache Error');
+}
+
+class ValidationException extends AppException {
+  final Map<String, dynamic>? errors;
+  
+  ValidationException([String message = 'Validation failed', this.errors]) 
+      : super(message, 'Validation Error');
+      
+  @override
+  String toString() {
+    if (errors != null && errors!.isNotEmpty) {
+      return 'Validation Error: $message - ${errors.toString()}';
+    }
+    return 'Validation Error: $message';
+  }
+}
